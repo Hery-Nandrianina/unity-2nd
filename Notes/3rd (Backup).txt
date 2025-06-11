@@ -1,0 +1,227 @@
+-Major vibration can be felt ingame
+
+Collision {
+-Under certain circumstances, the player fly off the map
+(Fall - Walk/Run to a ledge)
+=Din't run into any issues of this kind. Probably caused by high move speed while on rigidbody.
+
+-Moving in an inner corner cause several issues: vibration, slow rise up and sometimes passthrough
+-Pass through a combo of cube + cylender
+=The cause is clear: rigidbody!
+
+-Pass through a big sphere collider
+= It's actually caused by trigger found in event system
+
+-Ability to switch between rigidbody and charCtrl
+=Feature added. But rigidbody is not reliable! Just keeping it for future use.
+
+-Sync everything with deltaTime
+=I guess fixedUpdate is already frame independant. But use fixedDeltaTime to sync with in game time.
+
+-Jump in a wall detect onGround
+=You know... -> rigidbody
+
+-Jump while moving in a ledge cause a vibrafuck
+= Combine move into a single
+
+-Ability to adjust collider
+=Added but doesn't really have applicable use for now.
+
+-What is the real time transform used for? = Fix model center instead!
+And don't forget the y velocity drag when you need it ;D
+
+-Refine the drag equation applied on velocity
+= I think the drag is already fine.
+Real world velocity doesn't have hold!
+A multiplication sequence translate in an exponential function!
+}
+
+Slope {
+-Slope limit cause click on a terrain
+= Well, terrain are very big in the first place, it is rare to find a jaggy one.
+Use the combinaison of up, slide and slope limit to make seamless transition
+IE: bounce player while climbing until he is blocked
+and tweak the collider for better smoothness
+But remember that it is the terrain that need to be smooth!
+If you really need that kind of detail, smooth collider only then!
+
+-Check for infinity
+=It should be impossible since the raycast is pointing downward.
+
+-Slide on stopped move?
+=No, it will cause jitter. Fall back is what you instead.
+
+-Slide on slope end
+=Affect velocity instead.
+
+-Slide velocity jitter
+=It's because the velocity to 0 on ground. Check if the charCtrl is moving instead
+
+!!!!!!!!!!!!!!!!!!!!!!!!!⚠WARNING⚠!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-Slope limit
+=Well, fallback has been decided to replace this.
+Fall back is perfect for a realistic setup but we might need the slide
+version of slope limit in the future for fantasy setup so consider making it sometime! (Don't forget jump on a steep slope xD)
+(force/delay❌) (blockade/walk🗹)+(false positive🗹❌) (super speed🗹) (jump-fallback🗹)
+
+(jump) (transition/delay)
+
+-Velocity y take so long to nullify on a terrain after a jump
+(Related to velocity drag and slide after jump)
+=The reason we need to nullify it is to avoid a new fall to have an initial velocity.
+But on a terrain, I don't think there can be a sudden fall/It can be added as slide feature as well.
+
+-Slide on a steep slope
+= Added!
+
+-Slide late if entered with jump
+=Reset velocity on slide.
+
+-Jump then move in the direction of slope cause a sudden fall down
+= This is issue is an outdated one.
+
+-Down speed factor
+= Added dynamic speed setup.
+
+-Walk on a sphere click
+=Works just fine, suspected cause: high speed, small angle limit (changed to 45° minimum)
+
+-Slide + Down combo
+= Disable slide on walk.
+
+//Step Offset
+-Stair vibration, bounce
+=An alternative could be simulation by a slope (masked to player only and paired with a staircase collider).
+(Put on mind that stair is not the only thing that need the step system)
+
+!!!!!!!!!!!!!!!!!!!!!!!!!⚠WARNING⚠!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-Making our own step system
+(the default one is not smooth and raise faster on a slope anyway)
+(block🗹) (down🗹) (wall col + stair🗹) (raise🗹❌) (lost onGround❌) (diagonal❌)
+(slope vibration❌) (side/terrain)/(faceless step🗹)/(slope unreachable🗹❌)
+(reachable while walking🗹) (step on air offset=1)  (stair blocked🗹)
+
+(dynamic velocity) (stair authenticity)
+
+-Jump then move in the direction of ledge rise the player [Disable step on air]
+}
+
+Jump/Gravity {
+-Can reach high slope with multiple jump
+=It work for fall back but not for slide.
+
+-What happen after a jump/fall
+(rest🗹) (rem slide🗹) (land doesn't always fit🗹) (input 0🗹❌)
+(Hard land=Roll)
+
+-During a directionnal jump, initial velocity is added up to mid air speed to get full speed
+= Well, it can be added as a feature.
+
+-Jumping just under a ceiling: do we need an extra check or set a crash instead?
+-The raycast that avoid jump close to a wall doesn't cover a wide area
+=Use check capsule on the right position.
+
+-How mid air move actually work?
+=Reduce speed in mid air.
+
+-Should we opt for a directionnal jump?
+=Considering the realistic setup of the game, a directional jump is natural.
+
+-Decreased speed in mid air is absolute
+=Gain full speed if distance to the floor is small.
+
+-Can't jump on a corner, while moving to a wall/corner
+=Well, It's probably because of ground detection combined with rigidbody
+but you shouldn't actually be able to jump close to a wall for realistic behaviour.
+
+-Prevent jump on a steep slope?
+=Since we can't jump close to wall: it seems that steep slope is also affected (plus the right direction is blocked).
+																								
+-Jump in an inner corner stuck the player
+=It's fine. I guess rigidbody is to blame again.
+
+-Doesn't fall but ground not detected anymore
+=Capsule and ground radius should match each over.
+
+-Ground level mismatch
+(Reach top by slope) (Reach floor by slope) (Reach slope by fall)
+=Decrease charCtrl skin width and tweak capsule collider and gnd related parameters.
+}
+
+MISC {
+(Jump crash) (jump-boost) 
+(player dir fallback) (Fall degree)+(Fall on a certain steep level)
+(Cannot jump on stair)+(Stair speed) (Auto climb)
+
+Shield Play = Collider design!
+Reachable while walking again = Don't give a fuck!
+
+!!!!!!!!!!!!!!!!!!!!!!!!!⚠WARNING⚠!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Character controller is very bad at handling non-convex mesh colliders.
+=One solution is to use rigidbody but it causes a lot of mess. So instead make sure to properly cook each mesh colliders!
+Rigidbody Mode:
+Stuck in wall, Slope rise, Velocity change from jump
+Slope vibrafuck, bounce
+}
+
+Camera {
+-Hide player when the player is too close
+(only distance to head) (inverted control)/(not continuous turn)
+=Opt for dynamic solution 'cause this causes more problem!
+!!!!!!!!!!!!!!!!!!!!!!!!!⚠WARNING⚠!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-Auto responsive camera
+eg: when close force cam to look from above
+=Not really conviced!
+-Camera show vibration [Average of x mouse input]
+
+(Is it possible: an absolute still camera?)
+
+-Turn camera with horizontal axis
+=Well, it depends on your choice
+-A ray check is not enough: coneCast (offset)
+=SphereCast work fine with small radius (small enough to not leave the player collider).
+
+-Some obstacle can stand between the player and the camera but have proper collision when entered [Layer + collisionDetect]
+=Added!
+-Smooth reveal on collision without showing the inside
+=Doesn't really matter as long as it's fast!
+
+(FPS Mode)
+-Should we use cinemachine?
+=Do whatever the hell you want!
+}
+
+Animation {
+-Rotation and animation for fallback
+-Joystick input expand large range of axis value (Walk degree)
+-(Jump - Fall - Land) (Land 1m above)
+
+-Jumping just under a ceiling=Supressed by checkPosition
+(dirJump-Move in air) (Direct Land)
+-Cycle animation can be seen in mid air [Transition interruption]
+(Land - [Walk] - Fall)=Fine (Jump - Land - [Walk] - Jump🗹)
+-Check out for these transition
+(Jump - Land - Idle - Jump🗹) (Land - Cycle🗹)
+(Multiple jump animation🗹)
+-Skip land animation (change that fall and land animation)
+(Fall - [Land] - Walk)
+-Jump in the direction of a ledge=OK (Rb onGround)
+(Jump - ledge - [Land])
+-Jump - fall transition = Change fall animation!
+-Small walk after jump=Fine
+-Mid air angular speed=Fine
+-Check out for turn around transition=OK
+-Walk animation has vibration=OK [Bake into pose]
+-Jump in a wall play land animation=OK (onGround pbl)
+-Don't play fall animation when the distance is small=OK
+
+!!!!!!!!!!!!!!!!!!!!!!!!!⚠WARNING⚠!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-Foot IK
+-Model protection
+-Slope IK Behaviour?
+
+(Turn Around)
+(Smol walk)
+(Realistic Jump/Land)
+(Roll animation)
+}

@@ -1,0 +1,83 @@
+////////////////////////////////BASE MOVE
+Collision/Move🗹
+
+Slope: (step system❌) (slope limit transition🗹)   
+(slope rise🗹) (slope sliding🗹) (slope transition up🗹) (slope snap gravity🗹) (slope block❌)
+(slope obstacle rise🗹)vs(slope step🗹) (walk slide+idle stay[low firction]🗹) (fix snap🗹) (slow transition circle🗹)
+(jump ad steep slope slip up [0.1]❌) (land event/slope jump🗹) (input planning❌)
+
+(too steep slope🗹) (wall friction) (skip horizontal spike🗹=> lower than capsule base) 
+(limit X velo for smol lim❌) (slip up) (partial snap) (no slide🗹)
+(slope end stuck🗹) (vibrate (spot#3)❌) (slope block mode❌)&(mini slope🗹)
+
+<(normal hor)&(close to fall dir🗹) (capsule edge&slide)&(skipped step down=snap slope down)&(Air step)❌>
+vs <(steep slope rise) (stuck going up) (box collider🗹)>
+ 
+Vertical: (Jump hold🗹) (midAir speed❌) (jump underCeil🗹) (Hard land)
+(Wall friction❌) (input planning: land/underCeil {while move}❌)
+
+
+Animation❌: (anim fast transition) (close to fall) (slope rotation snap) (fall to wall)
+
+Camera: (Look up/down🗹) (camera bounds🗹)&(viewport size🗹) (shake remove[continuous]🗹)
+(look + vertical❌) (look delay❌)&(look in bounds🗹) (X bound❌)&(fast <>❌) (flickering❌)
+(Shake)
+
+
+
+
+
+
+///////////////////////////////EXTENDED MOVE
+(*Swimming)
+(Vertical dash) (Grapple)
+
+Double jump: (Double jump animation) (multiple jump🗹) (while attack) (underCeil❌)
+
+Wall slide/Climb: (slide too close🗹) (wall jump late🗹) (wall jump🗹) (other side)
+(wall friction + slide close to ground🗹)=(slide only on fall🗹) (opposite dir❌)
+(release latency🗹) (freeze🗹) (snap) (slide while attack❌) (ledge snap) (change dir just before)
+
+Dash: (dash delay) (dash end🗹)  (rem attack-dash delay) (dash & slope contradiction)
+(dash on wall slide) (dash in air count) (dash lead to air count) (dash to slide not holding key)
+
+///////////////////////////////WORLD INTERACTION >> Game Logic
+Moving Platform, Event [Switch], Pickup [Item], Props
+
+*Moves
+*Environment
+*Timing
+*Momentum
+*Trajectory
+*Physics
+
+
+////////////////////////////////ATTACK
+Sword: (Combo🗹) (no combo midAir🗹) (no switch while attack🗹) (attack delay)&(at end combo)
+(jump❌ while attack) (input planning❌) (Actual hit🗹)&(combo hit)
+(animation on move)&(faster attack) (Attack up) (Attack down midAir)+(jump Bounce?) [new Animation]
+
+Shoot: (Idle) (FireRate) (Actual hit)
+(Area attack) (Dash?)
+
+*Attack
+Frame
+Cancel
+Range
+Moves (Weapon)
+Combo (Timing)
+
+*Defend
+Parry
+Dodge
+Block
+
+*Impact, Enemy design
+///////AI
+
+
+
+
+
+///////GAME LOGIC (Gameplay & Game mechanics)
+

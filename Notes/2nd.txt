@@ -1,0 +1,39 @@
+BASE MOVE
+Those are the most basic move that allow the player to explore the map.
+
+1/Planar Move
+Most basic move that allow the player to navigate on a perfect flat plane.
+
+2/ Camera control
+Ability to rotate the camera around the player void of all collision.
+
+3/ Third dimension
+Make use of the 3rd dimension.
+
+a) Slope
+Allow the player to move on top of inclinaison including stair, terrain...
+
+b) Gravity
+Add gravity that allow the player to fall.
+
+c) Jump
+
+4/ Collision
+Stop the player from entering environment in 3 dimension.
+
+5/Animation
+
+ATTACK
+1/Camera Control
+
+2/Animation
+
+3/Physics
+a)Melee
+b)Fire
+
+[Data]
+
+EXTRA MOVE
+
+WORLD
