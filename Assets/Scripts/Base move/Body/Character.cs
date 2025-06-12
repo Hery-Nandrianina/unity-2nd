@@ -174,7 +174,7 @@ public class Character : Body
 
     #region Slope
     public override Vector3 Plane(Vector3 dir) {
-        Debug.DrawRay(transform.position, Snap(dir), Color.red);
+        // Debug.DrawRay(transform.position, Snap(dir), Color.red);
         Step(dir);
         Slide(dir);
         return Snap(dir) * Speed(dir);

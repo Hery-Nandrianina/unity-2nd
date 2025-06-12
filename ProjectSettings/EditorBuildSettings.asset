@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/MCP/Demo/Scenes/mcp_day.unity
+    guid: a5983b762b0a45b47b33909e74704735
   m_configObjects: {}
